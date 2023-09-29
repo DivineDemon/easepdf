@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "EasePDF",
@@ -14,10 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen font-sans antialiased grainy">
-        <Navbar />
-        {children}
-      </body>
+      <Providers>
+        <body className="min-h-screen font-sans antialiased grainy">
+          <Navbar />
+          {children}
+        </body>
+      </Providers>
     </html>
   );
 }
