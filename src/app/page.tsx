@@ -2,10 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
+import Steps from "@/components/Steps";
 import Wrapper from "@/components/Wrapper";
 import Decorator from "@/components/Decorator";
 import { buttonVariants } from "@/components/ui/button";
-import Steps from "@/components/Steps";
 
 export default function Home() {
   const listItems = [
