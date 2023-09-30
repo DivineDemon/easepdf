@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "EasePDF",
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <Providers>
         <body className="min-h-screen font-sans antialiased grainy">
+          <Toaster />
           <Navbar />
           {children}
         </body>
