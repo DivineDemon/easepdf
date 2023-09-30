@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Dropzone from "react-dropzone";
-import { Cloud, File } from "lucide-react";
+import { Cloud, File, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { UploadFileResponse } from "uploadthing/client";
 
@@ -107,7 +107,14 @@ const UploadDropzone = () => {
                   <Progress
                     value={progress}
                     className="h-1 w-full bg-zinc-200"
+                    indicatorColor={progress === 100 ? "bg-green-500" : ""}
                   />
+                  {progress === 100 ? (
+                    <div className="flex gap-1 items-center justify-center text-sm text-zinc-700 text-center pt-2">
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                      Redirecting...
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
               <input
