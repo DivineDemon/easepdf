@@ -18,10 +18,10 @@ export const ChatContext = createContext<StreamResponse>({
 });
 
 export const ChatContextProvider = ({
-  fileid,
+  fileId,
   children,
 }: {
-  fileid: string;
+  fileId: string;
   children: ReactNode;
 }) => {
   const { toast } = useToast();
@@ -34,7 +34,7 @@ export const ChatContextProvider = ({
       const response = await fetch("/api/message", {
         method: "POST",
         body: JSON.stringify({
-          fileid,
+          fileId,
           message,
         }),
       });

@@ -35,7 +35,8 @@ export default function ChatInput({ isDisabled }: { isDisabled?: boolean }) {
               />
               <Button
                 type="submit"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   addMessage();
                   textRef.current?.focus();
                 }}

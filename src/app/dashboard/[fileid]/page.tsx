@@ -12,17 +12,17 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { fileid } = params;
+  const { fileid: fileId } = params;
   const { getUser } = getKindeServerSession();
   const user = getUser();
 
   if (!user || !user.id) {
-    redirect(`/auth-callback?origin=dashboard/${fileid}`);
+    redirect(`/auth-callback?origin=dashboard/${fileId}`);
   }
 
   const file = await db.file.findFirst({
     where: {
-      id: fileid,
+      id: fileId,
       userId: user.id,
     },
   });
@@ -40,7 +40,7 @@ export default async function Page({ params }: PageProps) {
           </div>
         </div>
         <div className="shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0">
-          <ChatWrapper fileid={fileid} />
+          <ChatWrapper fileId={fileId} />
         </div>
       </div>
     </div>

@@ -5,14 +5,14 @@ import Messages from "./Messages";
 import ChatInput from "./ChatInput";
 import { trpc } from "@/app/_trpc/client";
 import { buttonVariants } from "../ui/button";
+import { ChatContextProvider } from "./ChatContext";
 
 import Link from "next/link";
 import { ChevronLeft, XCircle } from "lucide-react";
-import { ChatContextProvider } from "./ChatContext";
 
-export default function ChatWrapper({ fileid }: { fileid: string }) {
+export default function ChatWrapper({ fileId }: { fileId: string }) {
   const { data, isLoading } = trpc.getFileUploadStatus.useQuery(
-    { fileid },
+    { fileId },
     {
       refetchInterval: (data) =>
         data?.status === "SUCCESS" || data?.status === "FAILED" ? false : 500,
@@ -66,10 +66,10 @@ export default function ChatWrapper({ fileid }: { fileid: string }) {
   }
 
   return (
-    <ChatContextProvider fileid={fileid}>
+    <ChatContextProvider fileId={fileId}>
       <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-500 flex-col justify-between gap-2">
         <div className="flex-1 justify-between flex flex-col mb-28">
-          <Messages />
+          <Messages fileId={fileId} />
         </div>
         <ChatInput />
       </div>
