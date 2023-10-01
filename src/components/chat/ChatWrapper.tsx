@@ -8,6 +8,7 @@ import { buttonVariants } from "../ui/button";
 
 import Link from "next/link";
 import { ChevronLeft, XCircle } from "lucide-react";
+import { ChatContextProvider } from "./ChatContext";
 
 export default function ChatWrapper({ fileid }: { fileid: string }) {
   const { data, isLoading } = trpc.getFileUploadStatus.useQuery(
@@ -65,11 +66,13 @@ export default function ChatWrapper({ fileid }: { fileid: string }) {
   }
 
   return (
-    <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-500 flex-col justify-between gap-2">
-      <div className="flex-1 justify-between flex flex-col mb-28">
-        <Messages />
+    <ChatContextProvider fileid={fileid}>
+      <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-500 flex-col justify-between gap-2">
+        <div className="flex-1 justify-between flex flex-col mb-28">
+          <Messages />
+        </div>
+        <ChatInput />
       </div>
-      <ChatInput />
-    </div>
+    </ChatContextProvider>
   );
 }

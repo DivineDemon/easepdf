@@ -9,13 +9,16 @@ datasource db {
 }
 
 model User {
-  id                     String    @id @unique
-  email                  String    @unique
-  stripePriceID          String?   @unique @map(name: "stripe_price_id")
-  stripeCustomerID       String?   @unique @map(name: "stripe_customer_id")
+  id    String @id @unique
+  email String @unique
+
+  File    File[]
+  Message Message[]
+
+  stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
-  stripeSubscriptionID   String?   @unique @map(name: "stripe_subscription_id")
-  File                   File[]
+  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
 }
 
 enum UploadStatus {
@@ -26,15 +29,36 @@ enum UploadStatus {
 }
 
 model File {
-  id           String       @id @default(cuid())
-  name         String
+  id   String @id @default(cuid())
+  name String
+
   uploadStatus UploadStatus @default(PENDING)
-  url          String
-  key          String
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  User         User?        @relation(fields: [userId], references: [id])
-  userId       String?
+
+  url      String
+  key      String
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 
   @@index([userId])
+}
+
+model Message {
+  id   String @id @default(cuid())
+  text String @db.Text()
+
+  isUserMessage Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  File      File?    @relation(fields: [fileId], references: [id])
+  fileId    String?
+
+  @@index([userId])
+  @@index([fileId])
 }
