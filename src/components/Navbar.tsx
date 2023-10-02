@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 import Wrapper from "./Wrapper";
+import MobileNavbar from "./MobileNavbar";
 import { buttonVariants } from "./ui/button";
 import UserAccountNav from "./UserAccountNav";
 import {
@@ -29,6 +30,8 @@ export default function Navbar() {
               className="rounded-lg w-10 h-10"
             />
           </Link>
+
+          <MobileNavbar isAuth={!!user} />
 
           <div className="hidden items-center space-x-4 sm:flex">
             {!user ? (

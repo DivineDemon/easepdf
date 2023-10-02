@@ -1,15 +1,12 @@
 import "./globals.css";
-import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
 import "simplebar-react/dist/simplebar.min.css";
+import { constructMetadata } from "@/lib/utils";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Toaster } from "@/components/ui/toaster";
 
-export const metadata: Metadata = {
-  title: "EasePDF",
-  description: "Chat with your Documents",
-};
+export const metadata = constructMetadata();
 
 export default function RootLayout({
   children,
