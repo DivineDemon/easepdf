@@ -49,9 +49,11 @@ export const POST = async (req: NextRequest) => {
   const pinecone = await getPineconeClient();
   const pineconeIndex = pinecone.Index("easepdf");
 
+  // Namespaces not supported by Free tier Pinecone Index
   const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
     pineconeIndex,
-    namespace: file.id,
+    namespace: "",
+    // namespace: file.id,
   });
 
   const results = await vectorStore.similaritySearch(message, 4);

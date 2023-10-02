@@ -2,12 +2,18 @@
 
 import Message from "./Message";
 import { trpc } from "@/app/_trpc/client";
+import { ChatContext } from "./ChatContext";
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
 
+import { useContext, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useIntersection } from "@mantine/hooks";
 import { Loader2, MessageSquare } from "lucide-react";
 
 export default function Messages({ fileId }: { fileId: string }) {
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+  const { isLoading: isAiThinking } = useContext(ChatContext);
+
   const { data, isLoading, fetchNextPage } =
     trpc.getFileMessages.useInfiniteQuery(
       {
@@ -20,7 +26,19 @@ export default function Messages({ fileId }: { fileId: string }) {
       }
     );
 
+  const { ref, entry } = useIntersection({
+    root: lastMessageRef.current,
+    threshold: 1,
+  });
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
+
   const messages = data?.pages.flatMap((page) => page.messages);
+
   const loadingMessage = {
     createdAt: new Date().toISOString(),
     id: "loading-message",
@@ -33,7 +51,7 @@ export default function Messages({ fileId }: { fileId: string }) {
   };
 
   const combinedMessages = [
-    ...(true ? [loadingMessage] : []),
+    ...(isAiThinking ? [loadingMessage] : []),
     ...(messages ?? []),
   ];
 
@@ -48,6 +66,7 @@ export default function Messages({ fileId }: { fileId: string }) {
           if (idx === combinedMessages.length - 1) {
             return (
               <Message
+                ref={ref}
                 key={message.id}
                 message={message}
                 isNextMessageSamePerson={isNextMessageSamePerson}

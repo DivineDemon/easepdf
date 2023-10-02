@@ -50,9 +50,11 @@ export const ourFileRouter = {
           openAIApiKey: process.env.OPENAI_API_KEY,
         });
 
+        // Namespaces not supported by Free tier Pinecone Index
         await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
           pineconeIndex,
-          namespace: createdFile.id,
+          namespace: "",
+          // namespace: createdFile.id,
         });
 
         await db.file.update({
@@ -64,6 +66,7 @@ export const ourFileRouter = {
           },
         });
       } catch (error) {
+        console.log(error);
         await db.file.update({
           where: {
             id: createdFile.id,
