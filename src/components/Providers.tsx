@@ -18,6 +18,8 @@ export default function Providers({ children }: PropsWithChildren) {
     })
   );
 
+  console.log(`${process.env.KINDE_SITE_URL}/api/trpc`);
+
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
