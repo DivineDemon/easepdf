@@ -12,13 +12,11 @@ export default function Providers({ children }: PropsWithChildren) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: `${process.env.KINDE_SITE_URL}/api/trpc`,
+          url: "/api/trpc",
         }),
       ],
     })
   );
-
-  console.log(`${process.env.KINDE_SITE_URL}/api/trpc`);
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
