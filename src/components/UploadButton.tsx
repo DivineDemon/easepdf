@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Dropzone from "react-dropzone";
 import { useRouter } from "next/navigation";
+import Dropzone, { Accept } from "react-dropzone";
 import { Cloud, File, Loader2 } from "lucide-react";
 import { UploadFileResponse } from "uploadthing/client";
 
@@ -13,7 +13,13 @@ import { trpc } from "@/app/_trpc/client";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
-const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
+const UploadDropzone = ({
+  isSubscribed,
+  accept,
+}: {
+  isSubscribed: boolean;
+  accept: Accept;
+}) => {
   const router = useRouter();
   const { toast } = useToast();
   const [progress, setProgress] = useState<number>(0);
@@ -49,6 +55,7 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
   return (
     <Dropzone
       multiple={false}
+      accept={accept}
       onDrop={async (acceptedFile) => {
         if (isUploading) {
           return;
@@ -82,7 +89,7 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
 
         startPolling({ key });
       }}>
-      {({ getRootProps, getInputProps, acceptedFiles }) => (
+      {({ getRootProps, acceptedFiles }) => (
         <div
           {...getRootProps()}
           className="border h-64 m-4 border-dashed border-gray-300 rounded-lg">
@@ -126,12 +133,6 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
                 </div>
               ) : null}
             </label>
-            <input
-              {...getInputProps()}
-              type="file"
-              id="dropzone-file"
-              className="hidden"
-            />
           </div>
         </div>
       )}
@@ -146,6 +147,10 @@ export default function UploadButton({
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const fileFormats = {
+    "application/pdf": [".pdf"],
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -159,7 +164,7 @@ export default function UploadButton({
       </DialogTrigger>
 
       <DialogContent>
-        <UploadDropzone isSubscribed={isSubscribed} />
+        <UploadDropzone isSubscribed={isSubscribed} accept={fileFormats} />
       </DialogContent>
     </Dialog>
   );
