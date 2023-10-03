@@ -13,7 +13,7 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "sign-out",
+        source: "/sign-out",
         destination: "/api/auth/logout",
         permanent: true,
       },
