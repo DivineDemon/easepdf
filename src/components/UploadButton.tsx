@@ -50,6 +50,10 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
     <Dropzone
       multiple={false}
       onDrop={async (acceptedFile) => {
+        if (isUploading) {
+          return;
+        }
+
         setIsUploading(true);
         const progressInterval = startSimulatedProgress();
 

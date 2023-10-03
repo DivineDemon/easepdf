@@ -94,7 +94,7 @@ export default function Page() {
                   key={plan}
                   className={cn("relative rounded-2xl bg-white shadow-lg", {
                     "border-2 border-blue-600 shadow-blue-200": plan === "Pro",
-                    "border border-gray-200": plan === "Free",
+                    "border-2 border-gray-600": plan === "Free",
                   })}>
                   {plan === "Pro" ? (
                     <div className="absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-2 text-sm font-medium text-white">
@@ -130,7 +130,7 @@ export default function Page() {
                       <li key={text} className="flex space-x-5">
                         <div className="flex-shrink-0">
                           {negative ? (
-                            <Minus className="w-6 h-6 text-gray-300" />
+                            <Minus className="w-6 h-6 text-red-500" />
                           ) : (
                             <Check className="w-6 h-6 text-blue-500" />
                           )}

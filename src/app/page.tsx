@@ -6,8 +6,12 @@ import Steps from "@/components/Steps";
 import Wrapper from "@/components/Wrapper";
 import Decorator from "@/components/Decorator";
 import { buttonVariants } from "@/components/ui/button";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default function Home() {
+  const { getUser } = getKindeServerSession();
+  const user = getUser();
+
   const listItems = [
     {
       step: 1,
@@ -48,7 +52,7 @@ export default function Home() {
             size: "lg",
             className: "mt-5",
           })}
-          href="/dashboard"
+          href={!user || !user.id ? "/sign-in" : "/dashboard"}
           target="_blank">
           Get started <ArrowRight className="ml-2 h-5 w-5" />
         </Link>
