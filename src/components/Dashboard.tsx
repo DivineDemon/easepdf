@@ -11,6 +11,19 @@ import { format } from "date-fns";
 import Skeleton from "react-loading-skeleton";
 import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 
+const MessageCount = ({ fileId }: { fileId: string }) => {
+  const { data } = trpc.getFileMessagesCount.useQuery({
+    fileId: fileId,
+  });
+
+  return (
+    <div className="flex items-center gap-2">
+      <MessageSquare className="w-4 h-4" />
+      {data?.count}
+    </div>
+  );
+};
+
 export default function Dashboard({
   subscriptionPlan,
 }: {
@@ -70,9 +83,7 @@ export default function Dashboard({
                     <Plus className="w-4 h-4" />
                     {format(new Date(file.createdAt), "MMM yyyy")}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4" />3
-                  </div>
+                  <MessageCount fileId={file.id} />
                   <Button
                     size="sm"
                     className="w-full"

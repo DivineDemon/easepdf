@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Dropzone from "react-dropzone";
-import { Cloud, File, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Cloud, File, Loader2 } from "lucide-react";
 import { UploadFileResponse } from "uploadthing/client";
 
 import { Button } from "./ui/button";
